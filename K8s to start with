@@ -1,0 +1,70 @@
+What Is Kubernetes? 
+
+In simple terms, Kubernetes is a container orchestration platform. It helps you automatically deploy, manage, and scale containerized applications so you don’t have to do it manually.
+
+Think of it as the control center for your containers. Instead of running dozens of Docker containers by hand, Kubernetes ensures they are distributed properly, restarted when they crash, and scaled when demand increases.
+
+At its core, Kubernetes takes care of three main jobs:
+
+Deployment - Starting and stopping your containers automatically.
+Scaling - Adding or removing containers depending on workload.
+Recovery - Detecting failures and recreating containers to maintain uptime.
+
+Important things - 
+
+Pod - The smallest deployable unit in Kubernetes that runs one or more containers.
+Node - A worker machine that hosts Pods.
+Cluster - A group of nodes that Kubernetes manages collectively.
+
+
+
+Step 1: Create a Namespace (Optional but Recommended)
+Namespaces help you organize resources logically inside your cluster.
+Let’s start by creating one:
+
+kubectl create namespace demo
+You can view all namespaces with:
+
+kubectl get namespaces
+-----------
+Step 2: Deploy Your First Pod
+Now let’s deploy a simple Nginx web server Pod inside your namespace:
+
+kubectl run my-nginx --image=nginx --port=80 -n demo
+This command tells Kubernetes to run a Pod named my-nginx using the official Nginx container image.
+
+Check that it’s running:
+
+kubectl get pods -n demo
+You’ll see the Pod listed as Running. Congratulations -  first workload is live!
+--------
+
+Step 3: Expose the Pod as a Service
+Pods are temporary by design. To access them, you need a Service that keeps networking consistent even when Pods restart.
+
+kubectl expose pod my-nginx --type=NodePort --port=80 -n demo
+Now you can find the port it’s exposed on:
+
+kubectl get svc -n demo
+Visit the exposed port in your browser (using your Minikube or KodeKloud Lab IP) and you’ll see the default Nginx welcome page.
+
+---------------
+
+Step 4: Scale Your Deployment
+In the real world, one Pod isn’t enough. Kubernetes makes scaling effortless.
+
+Let’s scale your app to three replicas:
+
+kubectl scale deployment my-nginx --replicas=3 -n demo
+Check the result:
+
+kubectl get pods -n demo
+You’ll see multiple replicas of your Pod running across available nodes, automatically balanced and managed by Kubernetes.
+
+----------------
+
+Step 5: Clean Up (Always Good Practice)
+When you’re done experimenting, clean up your environment to keep things tidy:
+
+kubectl delete namespace demo
+This removes all resources created inside that namespace, keeping your cluster organized.
