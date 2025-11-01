@@ -16,7 +16,47 @@ Pod - The smallest deployable unit in Kubernetes that runs one or more container
 Node - A worker machine that hosts Pods.
 Cluster - A group of nodes that Kubernetes manages collectively.
 
+Architecture - 
 
+At its core, Kubernetes architecture is divided into two main parts:
+
+The Control Plane
+The Worker Nodes
+Together, they make up what’s called a Kubernetes cluster.
+
+The Control Plane (The Brain of Kubernetes)
+The Control Plane is the central management layer that makes all the decisions. It tells the worker nodes what to do, schedules workloads, and keeps the cluster running smoothly.
+
+Key components of the Control Plane:
+
+API Server - The entry point for all Kubernetes commands and communication.
+etcd - The database that stores the entire cluster state.
+Scheduler - Decides which node should run which Pod.
+Controller Manager - Keeps everything in the cluster in sync with your defined configuration.
+
+The Worker Nodes (Where Your Apps is Live)
+Worker nodes are the machines (virtual or physical) where your application containers actually run.
+Each node has three important components:
+
+Kubelet - Ensures containers are running as intended.
+Kube-Proxy - Handles networking and traffic routing between Pods.
+Container Runtime - The engine that runs the containers (like containerd or CRI-O).
+When you deploy an app, the control plane decides where it should run, and the worker nodes do the work of running those Pods and containers.
+
+
+Putting It All Together
+Here’s how the Kubernetes architecture works in simple terms:
+
+You submit a configuration file (YAML) describing what you want.
+The Control Plane validates it and stores the state in etcd.
+The Scheduler assigns Pods to nodes.
+The Kubelet ensures those Pods are running.
+The Controller Manager keeps everything in sync automatically.
+This design allows Kubernetes to be self-healing, scalable, and fault-tolerant. Even if one node fails, the control plane simply moves your workload to a healthy one.
+
+
+
+---- LAB -----
 
 Step 1: Create a Namespace (Optional but Recommended)
 Namespaces help you organize resources logically inside your cluster.
